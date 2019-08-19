@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as Font from "expo-font";
-import { StyleSheet, Text, View } from "react-native";
+import Notebook from "./Pages/Notebook";
 
 export default class App extends Component {
   state = {
@@ -14,26 +14,6 @@ export default class App extends Component {
     this.setState({ fontLoaded: true });
   }
   render() {
-    return (
-      <View style={styles.container}>
-        {this.state.fontLoaded ? (
-          <Text style={{ fontFamily: "lato", fontSize: 56 }}>
-            Hello, world!
-          </Text>
-        ) : null}
-      </View>
-    );
+    return this.state.fontLoaded ? <Notebook /> : null;
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  text: {
-    fontFamily: "lato"
-  }
-});
