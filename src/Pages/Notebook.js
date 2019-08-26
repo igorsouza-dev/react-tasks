@@ -30,12 +30,31 @@ export default class Pages extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {},
-  tasksContainer: {},
-  background: {},
-  title: {
-    fontFamily: commonStyles.fontFamily
+  container: {
+    flex: 1
   },
-  subtitle: {},
-  titleBar: {}
+  tasksContainer: {
+    flex: 7
+  },
+  background: {
+    flex: 3
+  },
+  title: {
+    fontFamily: commonStyles.fontFamily,
+    color: commonStyles.colors.secondary,
+    fontSize: 50,
+    marginLeft: 20,
+    marginBottom: 10
+  },
+  subtitle: {
+    fontFamily: commonStyles.fontFamily,
+    color: commonStyles.colors.secondary,
+    fontSize: 30,
+    marginLeft: 20,
+    marginBottom: 30
+  },
+  titleBar: {
+    flex: 1,
+    justifyContent: "flex-end"
+  }
 });
