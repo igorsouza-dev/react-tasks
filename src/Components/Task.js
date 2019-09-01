@@ -1,40 +1,46 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { Component } from "react";
+import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import moment from "moment";
 import "moment/locale/pt-br";
 
 import commonStyles from "../commonStyles";
 
-export default props => {
-  let check = null;
-  if (props.doneAt !== null) {
-    check = (
-      <View style={styles.done}>
-        <Icon name="check" size={20} color={commonStyles.colors.secondary} />
+export default class Task extends Component {
+  render() {
+    const { doneAt, desc, estimateAt, toggleTask, id } = this.props;
+    let check = null;
+    if (doneAt !== null) {
+      check = (
+        <View style={styles.done}>
+          <Icon name="check" size={20} color={commonStyles.colors.secondary} />
+        </View>
+      );
+    } else {
+      check = <View style={styles.pending}></View>;
+    }
+    const descStyle =
+      doneAt !== null
+        ? { textDecorationLine: "line-through", fontWeight: "bold" }
+        : {};
+    return (
+      <View style={styles.container}>
+        <TouchableWithoutFeedback onPress={() => toggleTask(id)}>
+          <View style={styles.checkContainer}>{check}</View>
+        </TouchableWithoutFeedback>
+
+        <View>
+          <Text style={[styles.description, descStyle]}>{desc}</Text>
+          <Text style={styles.date}>
+            {moment(estimateAt)
+              .locale("pt-br")
+              .format("ddd, D [de] MMMM")}
+          </Text>
+        </View>
       </View>
     );
-  } else {
-    check = <View style={styles.pending}></View>;
   }
-  const descStyle =
-    props.doneAt !== null
-      ? { textDecorationLine: "line-through", fontWeight: "bold" }
-      : {};
-  return (
-    <View style={styles.container}>
-      <View style={styles.checkContainer}>{check}</View>
-      <View>
-        <Text style={[styles.description, descStyle]}>{props.desc}</Text>
-        <Text style={styles.date}>
-          {moment(props.estimateAt)
-            .locale("pt-br")
-            .format("ddd, D [de] MMMM")}
-        </Text>
-      </View>
-    </View>
-  );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
