@@ -9,11 +9,14 @@ import {
   SafeAreaView,
   Platform
 } from "react-native";
+
+import Fab from "react-native-action-button";
+
 import moment from "moment";
 import "moment/locale/pt-br";
 
 import Task from "../Components/Task";
-
+import AddTask from "./AddTask";
 import todayImage from "../../assets/imgs/today.jpg";
 import commonStyles from "../commonStyles";
 
@@ -42,7 +45,8 @@ export default class Notebook extends Component {
       }
     ],
     showDonetasks: true,
-    visibleTasks: []
+    visibleTasks: [],
+    showAddTask: false
   };
   filterTasks = () => {
     const { showDonetasks, tasks } = this.state;
@@ -54,7 +58,16 @@ export default class Notebook extends Component {
     }
     this.setState({ visibleTasks });
   };
-
+  addTask = task => {
+    const tasks = [...this.state.tasks];
+    tasks.push({
+      id: Math.random(),
+      desc: task.desc,
+      estimateAt: task.date,
+      doneAt: null
+    });
+    this.setState({ tasks, showAddTask: false }, this.filterTasks);
+  };
   toggleFilter = () => {
     this.setState(
       { showDonetasks: !this.state.showDonetasks },
@@ -80,6 +93,11 @@ export default class Notebook extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
+        <AddTask
+          isVisible={this.state.showAddTask}
+          onSave={this.addTask}
+          onCancel={() => this.setState({ showAddTask: false })}
+        />
         <ImageBackground source={todayImage} style={styles.background}>
           <View style={styles.iconBar}>
             <TouchableOpacity onPress={this.toggleFilter}>
@@ -108,6 +126,10 @@ export default class Notebook extends Component {
             )}
           ></FlatList>
         </View>
+        <Fab
+          buttonColor={commonStyles.colors.today}
+          onPress={() => this.setState({ showAddTask: true })}
+        />
       </SafeAreaView>
     );
   }
